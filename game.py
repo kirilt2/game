@@ -24,7 +24,7 @@ class Ball(pygame.sprite.Sprite):
 
 # Initialize the screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Kill the Balls!")
+pygame.display.set_caption("Kill the Ballsgffgfgfg")
 
 # Create a sprite group for the balls
 all_sprites = pygame.sprite.Group()
