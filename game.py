@@ -83,3 +83,4 @@ game_loop()
 
 # Quit the game
 pygame.quit()
+print()

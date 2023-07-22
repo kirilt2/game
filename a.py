@@ -35,7 +35,6 @@ quack_sound.set_volume(0.5)
 
 # Global variables
 money = 0
-skin_unlocked = [True, False]  # List to keep track of which skins are unlocked
 
 def draw_grid():
     for x in range(0, WIDTH, GRID_SIZE):
@@ -88,53 +87,6 @@ class Apple:
         x, y = self.position
         window.blit(apple_image, (x * GRID_SIZE, y * GRID_SIZE))
 
-def draw_main_menu():
-    window.fill(BLACK)
-    font = pygame.font.Font(None, 36)
-    title_text = font.render("Duck Snake", True, WHITE)
-    title_rect = title_text.get_rect(center=(WIDTH // 2, HEIGHT // 3))
-    window.blit(title_text, title_rect)
-
-    play_text = font.render("Play", True, WHITE)
-    play_rect = play_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
-    window.blit(play_text, play_rect)
-
-    shop_text = font.render("Shop", True, WHITE)
-    shop_rect = shop_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 50))
-    window.blit(shop_text, shop_rect)
-
-    pygame.display.flip()
-
-def draw_shop_menu():
-    window.fill(BLACK)
-    font = pygame.font.Font(None, 36)
-    title_text = font.render("Shop", True, WHITE)
-    title_rect = title_text.get_rect(center=(WIDTH // 2, HEIGHT // 3))
-    window.blit(title_text, title_rect)
-
-    skin1_text = font.render("Skin 1 (100 Money)", True, WHITE)
-    skin1_rect = skin1_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
-    window.blit(skin1_text, skin1_rect)
-
-    skin2_text = font.render("Skin 2 (500 Money)", True, WHITE)
-    skin2_rect = skin2_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 50))
-    window.blit(skin2_text, skin2_rect)
-
-    back_text = font.render("Back", True, WHITE)
-    back_rect = back_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 100))
-    window.blit(back_text, back_rect)
-
-    pygame.display.flip()
-
-def buy_skin(skin_number):
-    global money, skin_unlocked
-    if skin_number == 1 and money >= 100:
-        money -= 100
-        skin_unlocked[1] = True
-    elif skin_number == 2 and money >= 500:
-        money -= 500
-        skin_unlocked[2] = True
-
 def game_loop():
     snake = Snake()
     apple = Apple()
@@ -172,6 +124,7 @@ def game_loop():
             apple.position = apple.random_position()
             snake.grow_snake()
             score += 1
+            quack_sound.play()  # Play the sound when the snake eats an apple
 
         window.fill(BLACK)
         draw_grid()
@@ -185,51 +138,44 @@ def game_loop():
         pygame.display.flip()
         clock.tick(FPS)
 
+
+def draw_main_menu():
+    window.fill(BLACK)
+    font = pygame.font.Font(None, 36)
+    title_text = font.render("Duck Snake by Kiril.", True, WHITE)
+    title_rect = title_text.get_rect(center=(WIDTH // 2, HEIGHT // 3))
+    window.blit(title_text, title_rect)
+
+    play_text = font.render("Press 'p' to play", True, WHITE)
+    play_rect = play_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+    window.blit(play_text, play_rect)
+
+    pygame.display.flip()
+
 def main():
-    global money, skin_unlocked
-    draw_main_menu()
     while True:
+        draw_main_menu()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:
-                    pygame.quit()
-                    sys.exit()
+                if event.key == pygame.K_p:  # Press 'p' to play the game
+                    draw_grid()
+                    game_loop()
 
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_p]:  # Press 'p' to play the game
-            draw_grid()
-            game_loop()
-            draw_main_menu()
-        elif keys[pygame.K_s]:  # Press 's' to access the shop
-            draw_shop_menu()
-            while True:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        sys.exit()
-                    elif event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_q:
-                            pygame.quit()
-                            sys.exit()
-                        elif event.key == pygame.K_b:  # Press 'b' to go back to main menu
-                            draw_main_menu()
-                            break
-                        elif event.key == pygame.K_1:  # Press '1' to buy skin 1
-                            buy_skin(1)
-                            draw_shop_menu()
-                        elif event.key == pygame.K_2:  # Press '2' to buy skin 2
-                            buy_skin(2)
-                            draw_shop_menu()
-
-        pygame.display.flip()
-        clock.tick(FPS)
+def main():
+    while True:
+        draw_main_menu()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:  # Press 'p' to play the game
+                    draw_grid()
+                    game_loop()
 
 # Start the game
 if __name__ == "__main__":
     main()
-
-
-
