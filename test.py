@@ -1,4 +1,4 @@
-
+import asyncio
 from telegram import Bot, Update, ForceReply, InputFile
 from telegram.ext import Updater, CommandHandler, Application, ContextTypes
 
@@ -36,6 +36,3 @@ class MyBot:
 
 if __name__ == "__main__":
     bot = MyBot(bot_token=bot_token)
-
-
-
