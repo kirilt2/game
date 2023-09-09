@@ -1,4 +1,4 @@
-
+import asyncio
 from telegram import Bot, Update, ForceReply, InputFile
 from telegram.ext import Updater, CommandHandler, Application, ContextTypes
 
@@ -28,8 +28,7 @@ class MyBot:
 
     async def send_multiple_memes(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """Send multiple memes when the /memes command is issued."""
-        memes = ['meme1.jpeg', 'meme2.jpg', 'meme.jpeg', 'meme1.jpeg', 'meme2.jpg', 'meme.jpeg', 'meme1.jpeg', 'meme2.jpg', 'meme.jpeg', 'meme1.jpeg', 'meme2.jpg', 'meme.jpeg','meme1.jpeg', 'meme2.jpg', 'meme.jpeg','meme1.jpeg', 'meme2.jpg', 'meme.jpeg','meme1.jpeg', 'meme2.jpg', 'meme.jpeg','meme1.jpeg', 'meme2.jpg', 'meme.jpeg']  # Add more meme file names if needed
-
+        memes = ['meme1.jpeg', 'meme2.jpg', 'meme.jpeg', 'meme1.jpeg', 'meme2.jpg', 'meme.jpeg', 'meme1.jpeg', 'meme2.jpg', 'meme.jpeg', 'meme1.jpeg', 'meme2.jpg', 'meme.jpeg','meme1.jpeg', 'meme2.jpg', 'meme.jpeg','meme1.jpeg', 'meme2.jpg', 'meme.jpeg','meme1.jpeg', 'meme2.jpg', 'meme.jpeg','meme1.jpeg', 'meme2.jpg', 'meme.jpeg'] 
         for meme_file_name in memes:
             with open(meme_file_name, 'rb') as meme_file:
                 await update.message.reply_photo(photo=InputFile(meme_file))
