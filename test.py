@@ -10,7 +10,6 @@ class MyBot:
     def __init__(self, bot_token):
         self.application = Application.builder().token(bot_token).build()
 
-        # Register command handlers
         self.application.add_handler(CommandHandler("start", self.start))
         self.application.add_handler(CommandHandler("help", self.help))
         self.application.add_handler(CommandHandler("memes", self.send_multiple_memes))
